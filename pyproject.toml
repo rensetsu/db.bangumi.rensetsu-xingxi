@@ -1,0 +1,7 @@
+[project]
+requires-python = ">=3.10"
+name = "rensetsu"
+
+[tool.ruff]
+line-length = 80
+

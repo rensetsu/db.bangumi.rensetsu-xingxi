@@ -1,0 +1,4 @@
+*.json          linguist-generated
+*.xml           linguist-generated
+*.tsv           linguist-generated
+*.csv           linguist-generated

@@ -1,0 +1,44 @@
+name: "Scrape platform"
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "scraper/*"
+  schedule:
+    - cron: "0 12 * * 0"
+permissions:
+  contents: write
+jobs:
+  Scrape:
+    name: "Scrape platform and convert as Media object"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: "Load secrets, if any"
+        uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJson(secrets) }}
+      - name: "Setup python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: "Install dependencies"
+        run: pip install -U -r requirements.txt
+      - name: "Run scraper"
+        shell: pwsh
+        run: |
+          try {
+            python3 scraper
+            $date = Get-Date -Format "yyyy-MM-dd'T'HH:mm:sszzzz"
+            git config --local user.email "167072439+rensetsu-bot@users.noreply.github.com"
+            git config --local user.name "Rensetsu[bot]"
+            git add .
+            git commit -m "Scrape data, $date update"
+            git push
+          }
+          catch {
+            "Failed to commit, check logs!"
+            exit 1
+          }
