@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "scraper/*"
+      - "xingxi/*"
   schedule:
-    - cron: "0 12 * * 0"
+    - cron: "0 1 * * 2"
 permissions:
   contents: write
 jobs:
@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           try {
-            python3 scraper
+            python3 xingxi
             $date = Get-Date -Format "yyyy-MM-dd'T'HH:mm:sszzzz"
             git config --local user.email "167072439+rensetsu-bot@users.noreply.github.com"
             git config --local user.name "Rensetsu[bot]"
